@@ -60,16 +60,11 @@ class QLearningAgent(ReinforcementAgent):
           Should return 0.0 if we have never seen a state
           or the Q node value otherwise
         """
-        "*** YOUR CODE HERE ***"
-        #util.raiseNotDefined()
-        if (state,action) in self.qvalues: # (state,action) is the key; (s,a) is the key (s,a): 0.5
-            # return the associated q-value
-            test = 0 # just for testing
+        if (state,action) in self.qvalues: # (state,action) is the key 
+          return self.QValues[state, action]
         else:
-            test = 0 # just for testing
-            # update the dictionary self.qvalues with this unseen (s,a) and initialize its value as 0.0
-            # self.qvalues[(s,a)]=0.0
-            # return this q-value     
+          self.qvalues[(state, action)] = 0.0
+          return self.QValues[state, action]
             
 
     def computeValueFromQValues(self, state):
@@ -79,8 +74,14 @@ class QLearningAgent(ReinforcementAgent):
           there are no legal actions, which is the case at the
           terminal state, you should return a value of 0.0.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        values = []
+        for action in self.getLegalActions(state):
+          values.append(self.getQValue(state, action)) #add all legal actions to a list
+        
+        if (values): # if we have legal actions, we just return the max action
+            return max(values)
+        else:
+            return 0.0
 
     def computeActionFromQValues(self, state):
         """
@@ -89,7 +90,15 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        legalActions = self.getLegalActions(state)
+        action_value = self.getValue(state)
+        
+        if not legalActions: # terminal state
+          return None
+        
+        for action in legalActions:
+          if action_value == self.getQValue(state, action):
+            return action
 
     def getAction(self, state):
         """
