@@ -51,9 +51,7 @@ class QLearningAgent(ReinforcementAgent):
         # Dictionaries are used to store data values in key:value pairs.
         self.qvalues = {} # this is a dictionary that stores the q-states with associated q-values
         # the q-states are keys, and the q-values are associated values for the keys
-
-        "*** YOUR CODE HERE ***"
-
+        
     def getQValue(self, state, action):
         """
           Returns Q(state,action)
@@ -61,10 +59,9 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         if (state,action) in self.qvalues: # (state,action) is the key 
-          return self.QValues[state, action]
+          return self.qvalues[state, action]
         else:
-          self.qvalues[(state, action)] = 0.0
-          return self.QValues[state, action]
+          return 0.0
             
 
     def computeValueFromQValues(self, state):
@@ -109,14 +106,13 @@ class QLearningAgent(ReinforcementAgent):
           should choose None as the action.
           HINT: You might want to use util.flipCoin(prob)
           HINT: To pick randomly from a list, use random.choice(list)
+          
+          Instance variables you have access to
+          - self.epsilon (exploration prob)
+          - self.alpha (learning rate)
+          - self.discount (discount rate)
         """
-        # Pick Action
-        legalActions = self.getLegalActions(state)
-        action = None
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
-
-        return action
+        #util.raiseNotDefined()
 
     def update(self, state, action, nextState, reward):
         """
@@ -128,6 +124,10 @@ class QLearningAgent(ReinforcementAgent):
         """
         "*** YOUR CODE HERE ***"
         #util.raiseNotDefined()
+        nextQVal = (1 - self.alpha) * self.getQValue(state, action)
+        newQVal = nextQVal + self.alpha * (reward + (self.discount * self.getValue(nextState)))
+        
+        self.qvalues[state, action] = newQVal
         
         # self.qvalues[(state,action)] = ...
 
