@@ -112,7 +112,15 @@ class QLearningAgent(ReinforcementAgent):
           - self.alpha (learning rate)
           - self.discount (discount rate)
         """
-        #util.raiseNotDefined()
+        legalActions = self.getLegalActions(state)
+        action = None
+
+        if util.flipCoin(self.epsilon):
+            action = random.choice(legalActions)
+        else:
+            action = self.getPolicy(state)
+
+        return action
 
     def update(self, state, action, nextState, reward):
         """
